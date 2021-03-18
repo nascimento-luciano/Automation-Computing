@@ -1,0 +1,34 @@
+//solução através do RK, intervalo h=0.001
+
+//𝑝𝑎𝑟𝑎 𝑥(0) = 0.1 𝑒 0.1 ≤ 𝑡 ≤ 1,3�
+
+clc
+clear
+ya(1)=0.1;yb(1)=0.1;yc(1)=0.1;
+h=0.001;
+t(1)=0.1;
+tfinal=1.3;
+n=tfinal/h;
+for k=1:n-1
+ t(k+1)=t(k)+h;
+ 
+//RUNGE KUTTA PRIMEIRA ORDEM
+ ya(k+1)=ya(k)+h*((ya(k)/t(k))+t(k)*ya(k)^2);
+ 
+//RUNGE KUTTA SEGUNDA ORDEM
+yb(k+1)=yb(k)+(h/2)*((yb(k)/t(k))+(t(k)*yb(k)^2)+((yb(k)+h*((yb(k)/t(k))+(t(k)*yb(k)^2)))/(t(k+1)))+(t(k+1))*(yb(k)+h*((yb(k)/t(k))+(t(k)*yb(k)^2)))^2);
+
+//RUNGE KUTTA QUARTA ORDEM
+ k1=h*((yc(k)/t(k))+(t(k)*yc(k)^2));
+ k2=h*(((yc(k)+(k1/2))/(t(k)+(h/2)))+(t(k)+(h/2))*(yc(k)+(k1/2))^2);
+ k3=h*(((yc(k)+(k2/2))/(t(k)+(h/2)))+(t(k)+(h/2))*(yc(k)+(k2/2))^2);
+ k4=h*(((yc(k)+k3)/(t(k)+h))+(t(k)+h)*(yc(k)+k3)^2);
+ yc(k+1)=yc(k)+1/6*(k1+2*k2+2*k3+k4);
+ 
+end
+figure(1)
+plot(t,ya,'r',t,yb,'b',t,yc,'g');
+legend('RK 1','RK 2','RK 4');
+title('Exercício 4 - h=0.001')
+xlabel('t (s)')
+ylabel('y')
